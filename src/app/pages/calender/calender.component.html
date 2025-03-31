@@ -1,0 +1,62 @@
+<!-- <div>
+  <button (click)="changeMonth(-1)">Previous</button>
+  <span>{{ currentDate | date : "MMMM yyyy" }}</span>
+  <button (click)="changeMonth(1)">Next</button>
+</div>
+
+<table>
+  <thead>
+    <tr>
+      <th
+        *ngFor="let day of ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']"
+        class="days"
+      >
+        {{ day }}
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let week of weeks">
+      <td
+        *ngFor="let day of week"
+        [class.other-month]="!day.currentMonth"
+        [ngClass]="{ today: day.date == todayDate }"
+      >
+        {{ day.date }}
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+ -->
+
+
+<!-- calendar.component.html -->
+<div class="container">
+  <div class="calendar">
+    <header>
+      <pre class="left" (click)="prevMonth()">◀</pre>
+      
+      <div class="header-display">
+        <p class="display">{{ display }}</p>
+      </div>
+
+      <pre class="right" (click)="nextMonth()">▶</pre>
+    </header>
+
+    <div class="week">
+      <div *ngFor="let day of ['Sunday','Monday','Tuesday','Wensday','Thusday','Friday','Saturday ',]">{{day}}</div>
+    </div>
+
+    <div class="days">
+      <div *ngFor="let day of days" (click)="selectDate(day)"
+           [ngClass]="{'current-date': day === today.date && month === today.month && year === today.year}">
+        {{ day !== 0 ? day : '' }}
+      </div>
+    </div>
+    
+
+  <!-- <div class="display-selected">
+    <p class="selected">Selected Date: {{ selectedDate }}</p>
+  </div> -->
+</div>
