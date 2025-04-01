@@ -1,0 +1,158 @@
+<div class="calendar-container">
+    <!-- Navigation Bar -->
+    <div class="navigation-bar">
+      <div class="nav-left">
+        <button class="nav-btn"><i class="bi bi-chevron-left"></i></button>
+        <button class="nav-btn"><i class="bi bi-chevron-right"></i></button>
+        <div class="breadcrumb">
+          <span>Dashboard</span> / <span class="active">Calendar</span>
+        </div>
+      </div>
+      <div class="nav-right">
+        <button class="tab-btn"><i class="bi bi-plus"></i> New Tab</button>
+        <button class="icon-btn"><i class="bi bi-star"></i></button>
+        <button class="icon-btn"><i class="bi bi-share"></i></button>
+        <button class="icon-btn"><i class="bi bi-three-dots"></i></button>
+      </div>
+    </div>
+  
+    <!-- Calendar Header -->
+    <div class="calendar-header">
+      <div class="header-left">
+        <h1>Calendar</h1>
+        <p>Stay Organized and On Track with Your Personalized Calendar</p>
+      </div>
+      <div class="header-right">
+        <div class="user-avatars">
+          <div class="avatar" style="background-color: #E6F0FB;">AL</div>
+          <div class="avatar" style="background-color: #F2F2F2;">DT</div>
+          <div class="more-users">+20</div>
+        </div>
+        <button class="invite-btn"><i class="bi bi-person-plus"></i> Invite</button>
+      </div>
+    </div>
+  
+    <!-- Calendar Navigation -->
+    <div class="calendar-tabs">
+      <div class="tabs-left">
+        <button class="tab-item active"><i class="bi bi-calendar-check"></i> All Scheduled</button>
+        <button class="tab-item"><i class="bi bi-calendar"></i> Events</button>
+        <button class="tab-item"><i class="bi bi-people"></i> Meetings</button>
+        <button class="tab-item"><i class="bi bi-clipboard"></i> Task Reminders</button>
+      </div>
+      <div class="tabs-right">
+        <div class="search-box">
+          <i class="bi bi-search"></i>
+          <input type="text" placeholder="Search..">
+        </div>
+        <button class="filter-btn"><i class="bi bi-funnel"></i> Filter</button>
+        <button class="more-btn"><i class="bi bi-three-dots"></i></button>
+        <button class="new-btn"><i class="bi bi-plus"></i> New</button>
+      </div>
+    </div>
+  
+    <!-- Calendar Controls -->
+    <div class="calendar-controls">
+      <div class="controls-left">
+        <h2>{{ display }}</h2>
+        <!-- <button class="today-btn" (click)="goToToday()">Today</button> -->
+      </div>
+      <div class="controls-right">
+        <div class="view-options">
+          <button class="view-btn">Day</button>
+          <button class="view-btn">Week</button>
+          <button class="view-btn active">Month</button>
+        </div>
+        <div class="date-range">
+          <i class="bi bi-calendar"></i>
+          <span>{{ getDateRange() }}</span>
+        </div>
+      </div>
+    </div>
+  
+    <!-- Calendar Navigation Arrows -->
+    <div class="calendar-nav-arrows">
+      <button class="arrow-btn" (click)="prevMonth()"><i class="bi bi-chevron-left"></i></button>
+      <button class="arrow-btn" (click)="nextMonth()"><i class="bi bi-chevron-right"></i></button>
+    </div>
+  
+    <!-- Calendar Grid - Month View -->
+    <div class="calendar-month-view">
+      <div class="week">
+        <div *ngFor="let day of ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']" class="day-name">{{ day }}</div>
+      </div>
+      
+      <div class="days">
+        <div *ngFor="let day of days" 
+             (click)="showAddTaskModal(demoModal, day)"
+             [ngClass]="{
+               'empty-day': day === 0,
+               'day-cell': day !== 0,
+               'current-date': day === today.date && month === today.month && year === today.year
+             }">
+          <div *ngIf="day !== 0" class="day-number">{{ day }}</div>
+  
+          <div *ngIf="day !== 0" class="day-events">
+            <div *ngFor="let task of getTasksForDate(year + '-' + (month + 1) + '-' + day).slice(0, 3); let i = index" 
+                class="task-item"
+                [style.background-color]="task.color"
+                (click)="showEditModal($event, editTaskModal, i, task)">
+              {{ task.text.length > 20 ? task.text.slice(0, 17) + '...' : task.text }}
+            </div>
+          
+            <!-- Show +X others if more than 3 tasks exist -->
+            <div *ngIf="getTasksForDate(year + '-' + (month + 1) + '-' + day).length > 3" 
+                class="more-tasks"
+                (click)="showAllTasks(year + '-' + (month + 1) + '-' + day)">
+              +{{ getTasksForDate(year + '-' + (month + 1) + '-' + day).length - 3 }} more
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Add Task Modal -->
+  <ng-template #demoModal let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Add Task</h4>
+      <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+        <label for="taskInput">Task Description</label>
+        <input type="text" class="form-control" id="taskInput" placeholder="Enter task details" [(ngModel)]="strNewTask">
+      </div>
+      <div class="choose-badge">
+        <div *ngFor="let color of colors"
+        [style.background-color]="color"
+        class="badge-option"
+        [ngClass]="{'selectedColor' : color == selectedColor}"
+        (click)="selectColor(color)"></div>
+      </div>
+      <div class="form-group mt-3">
+        <label>Date: {{ selectedDate }}</label>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline-dark" (click)="onSubmitModal()">Save</button>
+    </div>
+  </ng-template>
+  
+  <!-- Edit Task Modal -->
+  <ng-template #editTaskModal let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-edit-title">Edit Task</h4>
+      <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+        <label for="editTaskInput">Task Description</label>
+        <input type="text" class="form-control" id="editTaskInput" [(ngModel)]="strNewTask">
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-danger me-2" (click)="fnDeleteTask()">Delete</button>
+      <button type="button" class="btn btn-primary" (click)="fnUpdateTask()">Update</button>
+    </div>
+  </ng-template>

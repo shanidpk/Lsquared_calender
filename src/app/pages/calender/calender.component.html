@@ -1,37 +1,3 @@
-<!-- <div>
-  <button (click)="changeMonth(-1)">Previous</button>
-  <span>{{ currentDate | date : "MMMM yyyy" }}</span>
-  <button (click)="changeMonth(1)">Next</button>
-</div>
-
-<table>
-  <thead>
-    <tr>
-      <th
-        *ngFor="let day of ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']"
-        class="days"
-      >
-        {{ day }}
-      </th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let week of weeks">
-      <td
-        *ngFor="let day of week"
-        [class.other-month]="!day.currentMonth"
-        [ngClass]="{ today: day.date == todayDate }"
-      >
-        {{ day.date }}
-      </td>
-    </tr>
-  </tbody>
-</table>
-
- -->
-
-
-<!-- calendar.component.html -->
 <div class="container">
   <div class="calendar">
     <header>
@@ -45,18 +11,63 @@
     </header>
 
     <div class="week">
-      <div *ngFor="let day of ['Sunday','Monday','Tuesday','Wensday','Thusday','Friday','Saturday ',]">{{day}}</div>
+      <div *ngFor="let day of ['Sunday','Monday','Tuesday','Wensday','Thusday','Friday','Saturday ']">{{day}}</div>
     </div>
 
     <div class="days">
-      <div *ngFor="let day of days" (click)="selectDate(day)"
+      <div *ngFor="let day of days" (click)="fnSelectDate(day)" (click)="showAddTaskModal(demoModal,day)"
            [ngClass]="{'current-date': day === today.date && month === today.month && year === today.year}">
-        {{ day !== 0 ? day : '' }}
+        {{ day !== 0 ? day : '' }} 
+
+        <ul *ngIf="day !== 0">
+          <li *ngFor="let task of getTasksForDate(year + '-' + (month + 1) + '-' + day).slice(0, 3); let i = index" 
+              (click)="showEditModal($event, editTaskModal, i, task)" [style.background-color]="task.color">
+            <!-- {{ task.text }} -->
+            {{ task.text.length > 10 ? task.text.slice(0, 6) + '...' : task.text }}
+
+          </li>
+        
+          <!-- Show +X others if more than 3 tasks exist -->
+          <li *ngIf="getTasksForDate(year + '-' + (month + 1) + '-' + day).length > 3" 
+              (click)="showAllTasks(year + '-' + (month + 1) + '-' + day)">
+            +{{ getTasksForDate(year + '-' + (month + 1) + '-' + day).length - 3 }} others
+          </li>
+        </ul>
+        
       </div>
     </div>
-    
 
-  <!-- <div class="display-selected">
-    <p class="selected">Selected Date: {{ selectedDate }}</p>
-  </div> -->
 </div>
+
+
+
+<ng-template #demoModal let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Add task</h4>
+    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+  </div>
+  <div class="modal-body">
+    <input type="text" class="form-control" placeholder="Add task" [(ngModel)]="strNewTask">
+  </div>
+  <!-- <div class="select-color">
+     <div *ngFor="let item of colors" [style.background-color]="item.color"></div>
+  </div> -->
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="onSubmitModal()">Save</button>
+  </div>
+</ng-template>
+
+<ng-template #editTaskModal let-modal>
+  <!-- <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Edit Task</h4>
+    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+  </div> -->
+  <div class="modal-body">
+    <input type="text" class="form-control" placeholder="Add task" [(ngModel)]="strNewTask">
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="fnUpdateTask()">Update</button>
+    <button type="button" class="btn btn-dark" (click)="fndeleteTask()">Delete</button>
+
+  </div>
+</ng-template>

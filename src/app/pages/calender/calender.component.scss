@@ -69,6 +69,7 @@
         font-size: 16px;
         cursor: pointer;
         transition: background 0.3s ease-in-out;
+        flex-direction: column;
 
         &:hover {
           background: #f0f0f0;
@@ -79,6 +80,33 @@
         background: #007bff;
         color: white;
         font-weight: bold;
+      }
+
+      ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        font-size: 10px;
+        color: #333;
+        text-align: center;
+
+        li {
+          background-color: #3b82f6;
+          color: white;
+          padding: 4px 8px;
+          border-radius: 4px;
+          font-size: 12px;
+          cursor: pointer;
+          display: flex;
+          flex-direction: column;
+          gap: 2px;
+        }
+      
+        li:hover {
+          // background: red;
+          // padding: 4px;
+          // border-radius: 1rem;
+        }
       }
     }
   }

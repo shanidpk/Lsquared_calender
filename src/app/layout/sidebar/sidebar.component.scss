@@ -1,0 +1,182 @@
+/* Variables */
+$sidebar-bg: #f5f5f5;
+$sidebar-width: 280px;
+$primary-color: #6366f1;
+$text-primary: #333;
+$text-secondary: #666;
+$light-gray: #ddd;
+$border-radius: 8px;
+$shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+
+/* Sidebar Styles */
+.sidebar {
+  width: $sidebar-width;
+  height: 100vh;
+  background-color: $sidebar-bg;
+  display: flex;
+  flex-direction: column;
+  padding: 16px;
+  box-sizing: border-box;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  color: $text-primary;
+  box-shadow: $shadow;
+
+  /* Menu section styles */
+  .menu-section {
+    margin-bottom: 24px;
+
+    .section-title {
+      display: flex;
+      justify-content: space-between;
+      padding: 8px 0;
+      font-size: 12px;
+      font-weight: 600;
+      color: $text-secondary;
+      text-transform: uppercase;
+      cursor: pointer;
+
+      .icon-dropdown {
+        font-size: 10px;
+      }
+    }
+
+    .menu-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+
+      .menu-item {
+        display: flex;
+        align-items: center;
+        padding: 10px 12px;
+        margin-bottom: 4px;
+        border-radius: $border-radius;
+        cursor: pointer;
+        position: relative;
+
+        &:hover {
+          background-color: rgba(0, 0, 0, 0.05);
+        }
+
+        i, .project-icon {
+          margin-right: 12px;
+          font-size: 16px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+
+        .project-icon {
+          width: 24px;
+          height: 24px;
+          background-color: $primary-color;
+          color: white;
+          border-radius: 6px;
+          font-size: 12px;
+          font-weight: 600;
+
+          &.c {
+            background-color: $primary-color;
+          }
+
+          &.purple {
+            background-color: #8b5cf6;
+          }
+
+          &.blue {
+            background-color: #3b82f6;
+          }
+        }
+
+        .badge {
+          position: absolute;
+          right: 12px;
+          background-color: $primary-color;
+          color: white;
+          font-size: 10px;
+          font-weight: 600;
+          padding: 2px 6px;
+          border-radius: 10px;
+        }
+
+        &.create-new {
+          color: $text-secondary;
+          
+          .icon-plus {
+            font-size: 18px;
+          }
+        }
+      }
+    }
+  }
+
+  /* Security card styles */
+  .security-card {
+    margin-top: auto;
+    background-color: white;
+    border-radius: $border-radius;
+    padding: 16px;
+    position: relative;
+    box-shadow: $shadow;
+
+    .security-icon {
+      width: 32px;
+      height: 32px;
+      background-color: $primary-color;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      margin-bottom: 10px;
+    }
+
+    .close-icon {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      font-size: 18px;
+      color: $text-secondary;
+      cursor: pointer;
+    }
+
+    .security-content {
+      h3 {
+        font-size: 14px;
+        font-weight: 600;
+        margin: 0 0 8px;
+      }
+
+      p {
+        font-size: 12px;
+        color: $text-secondary;
+        margin: 0 0 16px;
+      }
+
+      .enable-button {
+        width: 100%;
+        background-color: #111;
+        color: white;
+        border: none;
+        border-radius: $border-radius;
+        padding: 10px;
+        font-weight: 500;
+        font-size: 12px;
+        cursor: pointer;
+        margin-bottom: 12px;
+
+        &:hover {
+          background-color: #000;
+        }
+      }
+
+      .learn-more {
+        display: block;
+        text-align: center;
+        font-size: 12px;
+        color: $text-secondary;
+        text-decoration: none;
+      }
+    }
+  }
+}
