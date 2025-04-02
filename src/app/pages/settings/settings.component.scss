@@ -37,7 +37,7 @@
   }
   
   .breadcrumb {
-    margin-left: 15px;
+    // margin-left: 15px;
     font-size: 14px;
     color: #6c757d;
     
@@ -109,9 +109,10 @@
     align-items: center;
     justify-content: center;
     font-weight: 500;
-    color: #555;
-    margin-right: -10px;
+    color: #FFF;
+    margin-right: -12px;
     border: 2px solid white;
+    padding: 1rem;
   }
   
   .more-users {
@@ -263,7 +264,7 @@
       font-size: 20px;
       font-weight: 600;
       color: #333;
-      margin-right: 15px;
+      // margin-right: 15px;
     }
   }
   
@@ -335,6 +336,8 @@
     display: flex;
     justify-content: center;
     margin-bottom: 15px;
+    align-items: center;
+    gap: 8px;
   }
   
   .arrow-btn {

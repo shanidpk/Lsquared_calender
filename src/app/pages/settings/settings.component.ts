@@ -30,7 +30,7 @@ export class SettingsComponent {
     strNewTask: string = '';
     selectedTask: Task | any;
     selectedColor:string = '#C9D5DF';
-    
+    isEditing: boolean = false;
     // Color options for tasks
 
     colors: string[] | any = ['F02C17','#FF5733', '#C9D5DF', '#3357FF', '#F1C40F', '#8E44AD'];
@@ -41,6 +41,27 @@ export class SettingsComponent {
         "date": "Tue Apr 1 2025",
         "text": "Client Meeting Planning",
         "id": "task001",
+        "color": "#F02C17" // Red
+      },
+      {
+        "date": "Tue Apr 1 2025",
+        "text": "Client Meeting Planning",
+        "id": "task021",
+        "color": "#C9D5DF" // Red
+      }, {
+        "date": "Tue Apr 1 2025",
+        "text": "Client Meeting Planning",
+        "id": "task022",
+        "color": "#8E44AD" // Red
+      }, {
+        "date": "Tue Apr 1 2025",
+        "text": "Client Meeting Planning",
+        "id": "task023",
+        "color": "#F02C17" // Red
+      }, {
+        "date": "Tue Apr 1 2025",
+        "text": "Client Meeting Planning",
+        "id": "task024",
         "color": "#F02C17" // Red
       },
       {
@@ -75,6 +96,12 @@ export class SettingsComponent {
       }
     ];
   
+    users = [
+      { name: 'Jhon Deo', color:  '#F02C17'},
+      { name: 'Malik Din', color: '#FF5733'},
+      { name: 'Rfhat Deo', color: '#C9D5DF'},
+      { name: 'Jhon Deo', color:  '#8E44AD'}
+    ];
     constructor(private modalService: NgbModal) {
       const date = new Date();
       this.year = date.getFullYear();
@@ -163,6 +190,7 @@ export class SettingsComponent {
     }
   
     showEditModal(event: Event, modal: any, index: number, task: any) {
+      this.isEditing = false;  //hide input
       this.selectedTask = task;
       event.stopPropagation();
       this.modalService.dismissAll();
@@ -170,7 +198,15 @@ export class SettingsComponent {
       this.strNewTask = task.text;
     }
   
-    showAllTasks(selectedDate: string) {
+    showAllTasks(event:Event, selectedDate: string, modal:any) {
+      this.selectedDate = selectedDate;
+
+      event.stopPropagation();
+      
+      this.modalService.dismissAll();
+      
+      this.modalService.open(modal, {size: 'sm'});
+
       console.log("Show all tasks for", selectedDate);
       // You can implement additional functionality here to show all tasks
     }
@@ -212,5 +248,16 @@ export class SettingsComponent {
     selectColor(color:string) {
       this.selectedColor = color
       console.log(this.selectedColor)
+    }
+
+    /**
+     * @param name 
+     * @returns 
+     */
+    getInitials(name: string): string {
+      const nameParts = name.split(' ');
+      return nameParts.length > 1
+        ? nameParts[0][0] + nameParts[1][0]  // Get first letter of first and last name
+        : nameParts[0][0];  // Fallback if only one name is present
     }
 }

@@ -2,10 +2,10 @@
     <!-- Navigation Bar -->
     <div class="navigation-bar">
       <div class="nav-left">
-        <button class="nav-btn"><i class="bi bi-chevron-left"></i></button>
-        <button class="nav-btn"><i class="bi bi-chevron-right"></i></button>
-        <div class="breadcrumb">
-          <span>Dashboard</span> / <span class="active">Calendar</span>
+      <!--   <button class="nav-btn"><i class="bi bi-chevron-left"></i></button>
+        <button class="nav-btn"><i class="bi bi-chevron-right"></i></button> -->
+        <div class="breadcrumb mb-0">
+          <span>Dashboard </span> / <span class="active">Calendar</span>
         </div>
       </div>
       <div class="nav-right">
@@ -24,10 +24,14 @@
       </div>
       <div class="header-right">
         <div class="user-avatars">
-          <div class="avatar" style="background-color: #E6F0FB;">AL</div>
-          <div class="avatar" style="background-color: #F2F2F2;">DT</div>
-          <div class="more-users">+20</div>
+          <div *ngFor="let user of users.slice(0,2)" class="avatar" [style.backgroundColor]="user.color">
+            {{ getInitials(user.name)}}
+          </div>
+          <div *ngIf="users.length > 2" class="more-users">
+            +{{ users.length - 2 }}
+          </div>
         </div>
+        
         <button class="invite-btn"><i class="bi bi-person-plus"></i> Invite</button>
       </div>
     </div>
@@ -54,8 +58,13 @@
     <!-- Calendar Controls -->
     <div class="calendar-controls">
       <div class="controls-left">
-        <h2>{{ display }}</h2>
-        <!-- <button class="today-btn" (click)="goToToday()">Today</button> -->
+       
+        <!-- Calendar Navigation Arrows -->
+        <div class="calendar-nav-arrows">
+          <button class="arrow-btn" (click)="prevMonth()"><i class="bi bi-chevron-left"></i></button>
+          <h2>{{ display }}</h2>
+          <button class="arrow-btn" (click)="nextMonth()"><i class="bi bi-chevron-right"></i></button>
+        </div>
       </div>
       <div class="controls-right">
         <div class="view-options">
@@ -70,11 +79,7 @@
       </div>
     </div>
   
-    <!-- Calendar Navigation Arrows -->
-    <div class="calendar-nav-arrows">
-      <button class="arrow-btn" (click)="prevMonth()"><i class="bi bi-chevron-left"></i></button>
-      <button class="arrow-btn" (click)="nextMonth()"><i class="bi bi-chevron-right"></i></button>
-    </div>
+    
   
     <!-- Calendar Grid - Month View -->
     <div class="calendar-month-view">
@@ -103,7 +108,7 @@
             <!-- Show +X others if more than 3 tasks exist -->
             <div *ngIf="getTasksForDate(year + '-' + (month + 1) + '-' + day).length > 3" 
                 class="more-tasks"
-                (click)="showAllTasks(year + '-' + (month + 1) + '-' + day)">
+                (click)="showAllTasks($event,year + '-' + (month + 1) + '-' + day,viewMoreTask)">
               +{{ getTasksForDate(year + '-' + (month + 1) + '-' + day).length - 3 }} more
             </div>
           </div>
@@ -142,17 +147,42 @@
   <!-- Edit Task Modal -->
   <ng-template #editTaskModal let-modal>
     <div class="modal-header">
-      <h4 class="modal-title" id="modal-edit-title">Edit Task</h4>
-      <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+      <!-- <h4 class="modal-title" id="modal-edit-title">Edit Task</h4> -->
+      <div class="modal-icons d-flex justify-content-end w-100 gap-3">
+        <i class="bi bi-pencil-square edit-icon" (click)="isEditing = true"></i>
+        <i class="bi bi-trash delete-icon " (click)="fnDeleteTask()"></i>
+      </div>
     </div>
+    
     <div class="modal-body">
       <div class="form-group">
         <label for="editTaskInput">Task Description</label>
-        <input type="text" class="form-control" id="editTaskInput" [(ngModel)]="strNewTask">
+        <div *ngIf="isEditing">
+          <input type="text" class="form-control" id="editTaskInput" [(ngModel)]="strNewTask">
+        </div>
+        <p *ngIf="!isEditing" class="task-text">{{ strNewTask }}</p>
       </div>
     </div>
+  
     <div class="modal-footer">
-      <button type="button" class="btn btn-danger me-2" (click)="fnDeleteTask()">Delete</button>
-      <button type="button" class="btn btn-primary" (click)="fnUpdateTask()">Update</button>
+      <button *ngIf="isEditing" type="button" class="btn btn-primary" (click)="fnUpdateTask()">Update</button>
     </div>
   </ng-template>
+  
+
+  
+<ng-template #viewMoreTask let-modal>
+  <div class="modal-body">
+    <div class="selected-date">
+      <h4 class="text=center">{{selectedDate | date}}</h4>
+    </div>
+    <div class="day-events">
+      <div *ngFor="let task of getTasksForDate(selectedDate); let i = index" style="text-wrap: no-wrap;"
+        class="task-item"
+        [style.background-color]="task.color"
+        (click)="showEditModal($event, editTaskModal, i, task)">
+        {{ task.text.length > 40 ? task.text.slice(0, 40) + '...' : task.text }}
+      </div>
+    </div>
+  </div>
+</ng-template>

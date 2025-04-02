@@ -1,7 +1,8 @@
 /* Variables */
 $sidebar-bg: #f5f5f5;
 $sidebar-width: 280px;
-$primary-color: #6366f1;
+// $primary-color: #6366f1;
+$primary-color: #010101;
 $text-primary: #333;
 $text-secondary: #666;
 $light-gray: #ddd;
@@ -11,8 +12,8 @@ $shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 /* Sidebar Styles */
 .sidebar {
   width: $sidebar-width;
-  height: 100vh;
-  background-color: $sidebar-bg;
+  min-height: 100vh;
+  // background-color: $sidebar-bg;
   display: flex;
   flex-direction: column;
   padding: 16px;
@@ -20,6 +21,40 @@ $shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
   color: $text-primary;
   box-shadow: $shadow;
+
+  /* user profile*/
+
+  .user-profile {
+    background: #f7f7f7;
+    padding: 4px;
+    border-radius: 8px;
+    border: 1px solid #e2e2e2;
+  
+    .avatar {
+      // border: 1px solid;
+      padding: 4px;
+      border-radius: 4px;
+      border-radius: #e3e3e3;
+        img {
+          width: 40px;
+          height: 40px;
+          object-fit: cover;
+          border-radius: 4px;
+        }
+    } 
+
+    .info {
+      h6 {
+        font-size: 14px;
+        font-weight: 600;
+        color: #321D14;
+      }
+      p {
+        font-size: 12px;
+        color: #808080;
+      }
+    }
+  }
 
   /* Menu section styles */
   .menu-section {
@@ -53,6 +88,7 @@ $shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         border-radius: $border-radius;
         cursor: pointer;
         position: relative;
+        font-size: 14px;
 
         &:hover {
           background-color: rgba(0, 0, 0, 0.05);
@@ -67,8 +103,8 @@ $shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         }
 
         .project-icon {
-          width: 24px;
-          height: 24px;
+          width: 22px;
+          height: 22px;
           background-color: $primary-color;
           color: white;
           border-radius: 6px;
