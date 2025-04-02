@@ -16,7 +16,7 @@ export const routes: Routes = [
         children: [
             {
                 path: '',
-                redirectTo: 'settings',  // Fixed: Relative redirect
+                redirectTo: 'calender',  // Fixed: Relative redirect
                 pathMatch: 'full'
             },
             {
