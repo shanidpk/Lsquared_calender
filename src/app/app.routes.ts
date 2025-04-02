@@ -3,6 +3,7 @@ import { LayoutComponent } from './layout/layout/layout.component';
 import { CalenderComponent } from './pages/calender/calender.component';
 import { SettingsComponent } from './pages/settings/settings.component';
 import { HomeComponent } from './pages/home/home.component';
+import { PageNotFoundComponent } from './pages/page-not-found/page-not-found.component';
 
 export const routes: Routes = [
     {
@@ -28,5 +29,9 @@ export const routes: Routes = [
                 component: SettingsComponent
             }
         ]
+    },
+    {
+        path:'**',
+        component:PageNotFoundComponent
     }
 ];
